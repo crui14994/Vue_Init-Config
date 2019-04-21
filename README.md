@@ -42,7 +42,7 @@ npm run dev
 ```
 
 
-## 一.将需要用到的工具函数新建一个utils文件夹统一管理
+## 二.将需要用到的工具函数新建一个utils文件夹统一管理
    1. 在根目录新建一个utils文件夹
    2. 在文件夹下新建index.js用于几种管理工具函数
         ```
@@ -147,8 +147,80 @@ npm run dev
         Vue.prototype.$formatDate = utils.formatDate
         Vue.prototype.$storage = utils.storage
         ```
-## 一.使用router的一些优化
-## 一.使用Vuex的一些优化
-## 一.封装axios；统一管理api
+    5. 在组件中使用
+        ```
+        computed:{
+            dateNow(){
+                return this.$formatDate('YYYY年mm月dd日hh小时ff分钟ss秒 星期w',new Date())
+            }
+        }
+        ```
+## 三.使用vue-router的一些优化（代码中只提供思路；没有具体实现）
+1. 在根目录新建一个router文件夹；安装vue-router
+    ```
+    cnpm install vue-router --save-dev
+    ```
+2. 在文件夹下新建index.js和route.js两个文件
+    > 在index.js中对路由进行配置；通过全局路由钩子函数进行一些如loading和给每个页面设置title的操作
+
+    > 在route.js中对各个路劲进行配置（具体参考源码）
+    ```
+    import Vue from 'vue';
+    import VueRouter from 'vue-router';
+    import { routers } from './route';
+    // import { Loading } from 'element-ui';
+    // import { setTitle } from 'src/assets/js/util';
+
+    Vue.use(VueRouter);
+
+    const routerConfig = {
+    mode: 'history',
+    linkActiveClass: 'active',
+    routes: routers
+    };
+
+    const router = new VueRouter(routerConfig);
+
+    // let loading;
+    // router.beforeEach((to, form, next) => {
+    //   loading = Loading.service({
+    //     // fullscreen: true,
+    //     target: '.content-wrapper',
+    //     text: '跳转中...'
+    //   });
+    
+    //   // 设置window.document.title 的名称
+    //   setTitle(to.meta.title);
+    
+    //   if (!to.matched.length) {
+    //     next({
+    //       path: '/error/404',
+    //       replace: true
+    //     });
+    //   } else {
+    //     next();
+    //   }
+    // });
+
+    // router.afterEach((to, from) => {
+    //   // 解决某些情况下loading无法关闭的情况
+    //   setTimeout(() => {
+    //     loading.close();
+    //   }, 0)
+    // });
+
+
+    export default router;
+
+    ```
+
+3. 在main.js中引入router
+    ```
+    import router from './router/index';
+    ```
+
+## 四.使用Vuex的一些优化
+1. 
+## 五.封装axios；统一管理api
 
 
