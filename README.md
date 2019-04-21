@@ -43,6 +43,110 @@ npm run dev
 
 
 ## 一.将需要用到的工具函数新建一个utils文件夹统一管理
+   1. 在根目录新建一个utils文件夹
+   2. 在文件夹下新建index.js用于几种管理工具函数
+        ```
+        export default {
+            storage: require('./storage.js').default, //本地存储localStorage
+            formatDate: require('./formatDate.js').default,  //日期格式化
+        }
+        ```
+   3. 编写工具函数导出右index.js导入
+
+       formatDate.js
+       ```
+            /**
+        * 格式化日期
+        * @param  {string} str 需要格式化的样子
+        * @param  {String|Date} day 日期对象或者日期字符串
+        * @return  {String}
+        * @template  formatDate('YYYY年mm月dd日hh小时ff分钟ss秒 星期w','2017/1/1 12:13:14') 返回：2017年01月01日12小时13分钟14秒 星期日;
+        */
+        function formatDate (str, day) {
+            let d, arr
+            let type = Object.prototype.toString.call(day)
+            if (type === '[object Date]') {
+            d = day
+            } else if (type === '[object String' && (arr = day.match(/(\d{4})[-/](\d{1,2})[-/](\d{1,2})(?:\s+(\d{1,2}):(\d{1,2}):(\d{1,2}))?/))) {
+            arr = arr.slice(0, arr[4] ? 7 : 4)
+            arr[2] = arr[2] - 1
+            d = new (Function.prototype.bind.apply(Date, arr))()
+            } else {
+            return ''
+            }
+            const obj = {
+            'yyyy': d.getFullYear(),
+            'yy': ('' + d.getFullYear()).slice(-2),
+            'm': d.getMonth() + 1,
+            'mm': ('0' + (d.getMonth() + 1)).slice(-2),
+            'd': d.getDate(),
+            'dd': ('0' + d.getDate()).slice(-2),
+            'h': d.getHours(),
+            'hh': ('0' + d.getHours()).slice(-2),
+            'f': d.getMinutes(),
+            'ff': ('0' + d.getMinutes()).slice(-2),
+            's': d.getSeconds(),
+            'ss': ('0' + d.getSeconds()).slice(-2),
+            'w': ['日', '一', '二', '三', '四', '五', '六'][d.getDay()]
+            }
+            return ('' + str).replace(/([a-z]+)/ig, function (k) {
+            return obj[k.toLowerCase()] || ''
+            })
+        }
+
+        export default formatDate
+        ```
+        storage.js
+        ```
+        // 本地存储localStorage
+        class Storage {
+            constructor () {
+                this.storage = window.localStorage
+                this.prefix = 'mytest_' //给key家一个前缀
+            }
+
+            set (key, value, fun) {
+                if (typeof value !== 'string') {
+                try {
+                    value = JSON.stringify(value)
+                } catch (e) {
+                }
+                }
+                this.storage.setItem(this.prefix + key, value)
+                typeof fun === 'function' && fun()
+            }
+
+            get (key, fun) {
+                let value = this.storage.getItem(this.prefix + key)
+                try {
+                value = JSON.parse(value)
+                if (value === null) value = {}
+                } catch (e) {
+                value = {}
+                }
+                return typeof fun === 'function' ? fun.call(this, value) : value
+            }
+
+            remove (key) {
+                this.storage.removeItem(this.prefix + key)
+            }
+
+            cle() {
+                this.storage.clear();
+            }
+        }
+
+        export default new Storage()
+
+        ```
+   4. 在main.js中把通用方法挂载到Vue原型上在组件中只需使用this即可使用相关的函数
+        ```
+        import utils from "./utils/index" //导入工具函数
+
+        // 把通用方法挂载到Vue原型上
+        Vue.prototype.$formatDate = utils.formatDate
+        Vue.prototype.$storage = utils.storage
+        ```
 ## 一.使用router的一些优化
 ## 一.使用Vuex的一些优化
 ## 一.封装axios；统一管理api
