@@ -220,7 +220,52 @@ npm run dev
     ```
 
 ## 四.使用Vuex的一些优化
-1. 
+1. 在根目录新建一个store文件夹；安装vue-router
+    ```
+    cnpm install  vuex --save
+    ```
+2. 在文件夹下新建index.js和user.js两个文件
+    > 在index.js引入我们的vue和vuex
+    > 在user.js中定义user需要使用到的状态
+    ```
+    //index.js
+    import Vue from 'vue';
+    import Vuex from 'vuex';
+    import user from './user';
+    Vue.use(Vuex);
+
+    export default new Vuex.Store({
+    modules: {
+        user
+    }
+    });
+    ```
+    ```
+    //user.js
+    import utils from "./../utils/index";
+
+    const state = {
+    //token
+    token: utils.storage.get("token")
+    };
+    const mutations = {
+    setToken(state, data) {
+        state.token = data;
+    }
+    };
+    export default {
+    state,
+    mutations
+    };
+    ```
+
+
+3. 在main.js中引入router
+    ```
+    //sotre
+    import store from "./store/index";
+    ```
+    
 ## 五.封装axios；统一管理api
 
 
