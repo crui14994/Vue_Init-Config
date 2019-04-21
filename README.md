@@ -1,5 +1,3 @@
-# vue中关于router，vuex，axios，api，utils的一些常用配置
-
 ### 一.项目介绍
 > github地址：https://github.com/crui14994/Vue_Init-Config
 
@@ -164,6 +162,7 @@ npm run dev
     > 在index.js中对路由进行配置；通过全局路由钩子函数进行一些如loading和给每个页面设置title的操作
 
     > 在route.js中对各个路劲进行配置（具体参考源码）
+
     ```
     import Vue from 'vue';
     import VueRouter from 'vue-router';
@@ -227,6 +226,7 @@ npm run dev
 2. 在文件夹下新建index.js和user.js两个文件
     > 在index.js引入我们的vue和vuex
     > 在user.js中定义user需要使用到的状态
+
     ```
     //index.js
     import Vue from 'vue';
@@ -379,4 +379,4 @@ npm run dev
         this.reponseData = response.data;
         });
     }
-  ```
+    ```
