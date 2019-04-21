@@ -1,4 +1,4 @@
-# example
+# vue中关于router，vuex，axios，api，utils的一些常用配置
 
 ### 一.项目介绍
 > github地址：https://github.com/crui14994/Vue_Init-Config
