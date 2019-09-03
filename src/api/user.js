@@ -1,9 +1,22 @@
-import service from "./../utils/axios";
+import service from "@/api/config/axios";
 
+export function login(username,password) {
+    return service({
+        url: "/login",
+        method: "post",
+        data:{
+            username,
+            password
+        }
+    });
+}
 
-export function mock(apiRouter) {
-  return service({
-    url: "https://easy-mock.com/mock/5c9c8e9ba0feb92705bf12b7/example/"+apiRouter,
-    method: "get",
-  });
+export function getInfo(token) {
+    return service({
+        url: "/getInfo",
+        method: "get",
+        params:{
+            token
+        }
+    });
 }
