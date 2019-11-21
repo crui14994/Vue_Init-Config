@@ -24,9 +24,9 @@ npm run server
 
 ## 2019.11.21
 
-#### 增加server文件夹使用express简单模拟登陆和获取用户信息接口(因为easy mock不稳定放弃使用)。
+#### 1.增加server文件夹使用express简单模拟登陆和获取用户信息接口(因为easy mock不稳定放弃使用)。
 
-#### 解决vue项目路由出现message: "Navigating to current location (XXX) is not allowed"的问题
+#### 2.解决vue项目路由出现message: "Navigating to current location (XXX) is not allowed"的问题
 
 原因：在路由中添加了相同的路由。
 
