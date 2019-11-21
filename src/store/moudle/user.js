@@ -35,7 +35,7 @@ const actions = {
         const { name, pass } = userInfo;
         return new Promise((resolve, reject) => {
             login(name, pass).then(res => {
-                const { token } = res.data.data;
+                const { token } = res.data;
                 if (token) {
                     commit(types.SET_TOKEN, token);
                     sessionStorage.setItem('web-Token', token);
@@ -50,8 +50,8 @@ const actions = {
     getUserInfo: ({ commit, state }) => {
         return new Promise((resolve, reject) => {
             getInfo(state.token).then(res => {
-                commit(types.SET_USERNAME, res.data.data.name);
-                commit(types.SET_ROLES, res.data.data.role);
+                commit(types.SET_USERNAME, res.data.name);
+                commit(types.SET_ROLES, res.data.role);
                 resolve(res.data);
             }).catch(error => {
                 reject(error);
