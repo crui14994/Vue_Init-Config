@@ -33,12 +33,12 @@ npm run server
    解决：重写路由的push方法
 
    ```js
-    //在src/router/index.js 里面import Router from 'vue-router'下面写入下面方法即可
-    /**
-    * 重写路由的push方法
-    */
-    const routerPush = Router.prototype.push
-    Router.prototype.push = function push(location) {
-    return routerPush.call(this, location).catch(error=> error)
-    }
+   //在src/router/index.js 里面import Router from 'vue-router'下面写入下面方法即可
+   /**
+   * 重写路由的push方法
+   */
+   const routerPush = Router.prototype.push
+   Router.prototype.push = function push(location) {
+   return routerPush.call(this, location).catch(error=> error)
+   }
    ```
