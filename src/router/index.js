@@ -6,6 +6,14 @@ import store from '@/store/index'
 
 Vue.use(Router)
 
+/**
+ * 重写路由的push方法
+ */
+const routerPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error => error)
+}
+
 const routerConfig = {
   mode: 'history',
   linkActiveClass: 'active',
@@ -27,7 +35,7 @@ router.beforeEach((to, from, next) => {
           const roles = res.role;
           store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-            next({ ...to}) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+            next({ ...to }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
           })
         }).catch(err => {
           console.log(err);
@@ -43,5 +51,6 @@ router.beforeEach((to, from, next) => {
     (whiteList.indexOf(to.path) !== -1) ? next() : next('/login');
   }
 })
+
 
 export default router;
