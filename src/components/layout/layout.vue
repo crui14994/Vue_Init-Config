@@ -3,7 +3,7 @@
     <Header />
     <div class="app-body">
       <div class="silder-nav">
-        <Sidebar />
+        <!-- <Sidebar /> -->
       </div>
       <div class="app-main">
         <Breadcrumb/>
@@ -15,14 +15,14 @@
 
 <script>
 import Header from "@/components/layout/Header";
-import Sidebar from "@/components/layout/Sidebar";
+// import Sidebar from "@/components/layout/Sidebar";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 
 export default {
   name: "layout",
   components: {
     Header,
-    Sidebar,
+    // Sidebar,
     Breadcrumb
   }
 };

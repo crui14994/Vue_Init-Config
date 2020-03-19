@@ -1,7 +1,6 @@
 // store/permission.js
-import { routes, asyncRouterMap } from '@/router/route';
+import { asyncRouterMap, constantRouterMap } from '@/router/route.js';
 
-//判断当前路由是否有权限
 function hasPermission(roles, route) {
   if (route.meta && route.meta.role) {
     return roles.some(role => route.meta.role.indexOf(role) >= 0)
@@ -10,36 +9,15 @@ function hasPermission(roles, route) {
   }
 }
 
-function getNowRouter(asyncRouterMap, to) {
-  return asyncRouterMap.some(route => {
-    // console.log(asyncRouterMap);
-    if (to.path.indexOf(route.path) !== -1) {
-      return true;
-    } else if (route.children && route.children.length) { //如果有孩子就遍历孩子
-      return getNowRouter(route.children, to)
-    }
-  })
-}
-
 const permission = {
   state: {
-    routers: routes,
-    addRouters: [],
-    siderbar_routers: [],
+    routers: constantRouterMap,
+    addRouters: []
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers;
-      state.routers = routes.concat(routers);
-    },
-    SET_NOW_ROUTERS: (state, to) => {
-      // 递归访问 accessedRouters，找到包含to 的那个路由对象，设置给siderbar_routers
-      state.addRouters.forEach(e => {
-        if (e.children && e.children.length) {
-          if (getNowRouter(e.children, to) === true)
-            state.siderbar_routers = e;
-        }
-      })
+      state.routers = constantRouterMap.concat(routers);
     }
   },
   actions: {
@@ -47,9 +25,7 @@ const permission = {
       return new Promise(resolve => {
         const { roles } = data;
         const accessedRouters = asyncRouterMap.filter(v => {
-          // admin权限 直接通过
-          if (roles.indexOf('admin') >= 0) return true;
-          // console.log(v,hasPermission(roles, v))
+          if (roles.indexOf(99) >= 0) return true;
           if (hasPermission(roles, v)) {
             if (v.children && v.children.length > 0) {
               v.children = v.children.filter(child => {
@@ -68,14 +44,7 @@ const permission = {
         commit('SET_ROUTERS', accessedRouters);
         resolve();
       })
-    },
-    getNowRoutes({ commit }, data) {
-      return new Promise(resolve => {
-        //data => to
-        commit('SET_NOW_ROUTERS', data);
-        resolve();
-      })
-    },
+    }
   }
 };
 

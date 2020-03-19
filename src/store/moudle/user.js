@@ -49,13 +49,15 @@ const actions = {
     //获取用户信息
     getUserInfo: ({ commit, state }) => {
         return new Promise((resolve, reject) => {
-            getInfo(state.token).then(res => {
-                commit(types.SET_USERNAME, res.data.name);
-                commit(types.SET_ROLES, res.data.role);
-                resolve(res.data);
-            }).catch(error => {
-                reject(error);
-            })
+            // getInfo(state.token).then(res => {
+            //     commit(types.SET_USERNAME, res.data.name);
+            //     commit(types.SET_ROLES, res.data.role);
+            //     resolve(res.data);
+            // }).catch(error => {
+            //     reject(error);
+            // })
+            commit(types.SET_ROLES, [97]);
+            resolve({role:[97]});
         })
     },
     //退出
